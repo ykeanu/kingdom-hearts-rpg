@@ -1,0 +1,62 @@
+* {
+	text-align: center;
+	margin: 0 auto;
+	text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+}
+
+body {
+	background-image: url(../images/castle-oblivion.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.container-fluid {
+	width: 900px;
+}
+
+.jumbotron {
+	padding: 10px;
+	margin: 0 auto;
+	background-color: transparent;
+}
+
+#green-text {
+	color: green;
+}
+
+#red-text {
+	color: red;
+}
+
+img {
+	height: 200px;
+	width: 200px;
+/*	border: 2px solid white;*/
+	text-align: center;
+}
+
+.jumbotron img {
+	width: 687px;
+	height: 300px;
+	border: none;
+}
+
+.character {
+	padding: 5px;
+	text-align: center;
+}
+
+
+.hpBar {
+	background-color: #006400;
+	border-radius: 20px;
+	text-align: center;
+	width: 80%;
+	margin: 5px auto 5px auto;
+}
+
+/*Javascript*/
+.hidden {
+	display:none;
+}
+
