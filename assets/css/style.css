@@ -1,13 +1,16 @@
 * {
 	text-align: center;
 	margin: 0 auto;
-	text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
+	text-shadow: -0.75px 0 black, 0 0.75px black, 0.75px 0 black, 0 -0.75px black;
+
 }
 
 body {
-	background-image: url(../images/castle-oblivion.png);
+	background-image: url(../images/background.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+/*	font-family: 'VT323', monospace;*/
+	font-family: 'Share Tech Mono', monospace;
 }
 
 .container-fluid {
@@ -15,9 +18,15 @@ body {
 }
 
 .jumbotron {
-	padding: 10px;
-	margin: 0 auto;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
 	background-color: transparent;
+
+}
+
+.selectRow {
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
 }
 
 #green-text {
@@ -29,16 +38,57 @@ body {
 }
 
 img {
-	height: 200px;
-	width: 200px;
+	height: 175px;
+	width: 175px;
 /*	border: 2px solid white;*/
 	text-align: center;
 }
 
 .jumbotron img {
-	width: 687px;
-	height: 300px;
+/*	width: 687px;
+	height: 300px;*/
+	width: 650px;
+	height: 380px;
 	border: none;
+}
+
+
+.selectCharacter img:hover {
+	filter: opacity(.7);
+	-webkit-filter: opacity(.7);
+	text-shadow: -1px -1px 0px #000;
+}
+
+.remainingEnemies img:hover {
+	filter: opacity(.7);
+	-webkit-filter: opacity(.7);
+	text-shadow: -1px -1px 0px #000;
+}
+
+.infoBox {
+	margin: 0px 0px 0px 0px;
+}
+
+.infoBox p {
+	margin: 0px 0px 0px 0px;
+	padding: 5px 0px 5px 0px;
+}
+
+
+
+#information {
+	margin: 5px 0px 5px 0px;
+}
+
+
+.selectCharacter img {
+	margin: 15px 0px 15px 0px;
+}
+
+.yourEnemy img, .yourCharacter img {
+	width: 200px;
+	height: 200px;
+	position: relative;
 }
 
 .character {
@@ -52,7 +102,23 @@ img {
 	border-radius: 20px;
 	text-align: center;
 	width: 80%;
-	margin: 5px auto 5px auto;
+	margin: 5px auto 15px auto;
+}
+
+
+.remainingEnemies {
+	padding-top:15px;
+	padding-bottom:15px;
+}
+
+.remainingEnemies {
+    margin-left: auto;
+    margin-right: auto }
+}
+
+.enemyText h2 {
+	color: red;
+	font-size: 10px;
 }
 
 /*Javascript*/
@@ -60,3 +126,16 @@ img {
 	display:none;
 }
 
+/*Particle effect when clicked*/
+
+.debris {
+ display: none;   
+ position: absolute;
+ width: 28px;
+ height: 28px;
+ background-color: 
+yellow;
+ opacity: 1.0;
+ overflow: hidden;
+ border-radius: 8px;
+}

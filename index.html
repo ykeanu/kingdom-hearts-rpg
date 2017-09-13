@@ -6,9 +6,12 @@
     <title>Kingdom Hearts RPG Game | Javascript</title>
     <!-- Local Reset CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
     <!-- Boostrap 4.0 Alpha -->
     <link rel="stylesheet" href="https://bootswatch.com/4-alpha/darkly/bootstrap.min.css" crossorigin="anonymous">
     <!-- Local CSS styling -->
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|VT323" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
@@ -17,18 +20,20 @@
             <!-- Jumbotron -->
             <div class="jumbotron jumbotron-fluid row">
                 <div class="container">
-                    <h1 class="display-3"><img src="assets/images/header.png"></h1>
+                    <h1 class="display-3"><img src="assets/images/header3.png"></h1>
         <!-- IN PROGRESS - Instructions -->
 <!--                     <p class="lead">Instructions: Click to begin!</p> -->
                 </div>
             </div>
         <!-- Choose Your Character -->
-        <div class="row">
+        <div class=" selectCharacter row">
             <div class="col-12">
                 <div class="row">
-                    <div class="card col-12">
-                        <h2 id="information">Choose Your <strong id="green-text">Character</strong></h2>
+                    <div class="infoBox card col-12">
+                        <h2 id="information" class=>Choose Your <strong id="green-text">Character</strong></h2>
                     </div>
+
+
                     <div class="col-3">
                         <div id="sora" class="character">
                             <img src="assets/images/sora-select.png" alt="" id="soraImg">
@@ -59,7 +64,7 @@
                 <h2>Fight!</h2>
             </div> -->
             <div class="col-6">
-            	<h2>Your Character</h2>
+            	<h2 id="yourCharName"></h2>
                 <div class="row">
                     <div class="col-12">
                         <div class="yourCharacter">
@@ -69,7 +74,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <h2>Current Enemy</h2>
+                <h2 id="yourEnemyName"></h2>
                 <div class="row">
                     <div class="col-12">
                         <div class="yourEnemy">
@@ -84,7 +89,7 @@
             <div class="col-12">
                 <div class="row">
                     <div class="card col-12">
-                        <h2>Enemies Remaining</h2>
+                        <h2 id="enemiesRemainingInfo">Enemies Remaining</h2>
                     </div>
                     <div class="remainingEnemies row">
                     </div>
@@ -95,11 +100,17 @@
         <br>
         <div class="row">
             <div class="card col-12">
-                <p id="wins">Wins: 0</p>
-                <p id="losses">Losses: 0</p>
+                <p id="wins">Enemies Defeated: 0</p>
+                <p id="losses">Lives: 3</p>
             </div>
         </div>
     </div>
+
+<div id="content">
+  <div id="dummy_debris" class="debris" />
+</div>
+
+
     <!-- Bootstrap Javascript plugins + jQuery + Pooper.js -->
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
