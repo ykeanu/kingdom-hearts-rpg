@@ -1,28 +1,28 @@
 //~~~~~~~Global Variables~~~~~~~
 
 var sora = {
-	name: "sora",
-	healthPoints: 200,
-	attackPoints: 9,
-	counterAttackPoints: 5
+    name: "sora",
+    healthPoints: 200,
+    attackPoints: 5,
+    counterAttackPoints: 5
 }
 var riku = {
-	name: "riku",
-	healthPoints: 190,
-	attackPoints: 8,
-	counterAttackPoints: 5
+    name: "riku",
+    healthPoints: 190,
+    attackPoints: 4,
+    counterAttackPoints: 5
 }
 var cloud = {
-	name: "cloud",
-	healthPoints: 250,
-	attackPoints: 11,
-	counterAttackPoints: 4
+    name: "cloud",
+    healthPoints: 250,
+    attackPoints: 8,
+    counterAttackPoints: 4
 }
 var axel = {
-	name: "axel",
-	healthPoints: 220,
-	attackPoints: 8,
-	counterAttackPoints: 7
+    name: "axel",
+    healthPoints: 220,
+    attackPoints: 3,
+    counterAttackPoints: 7
 }
 
 var attackPower = 0;
@@ -33,156 +33,238 @@ var chosenCharacter;
 var chosenEnemy;
 var defeatedArray = [];
 var gameOver = false;
+var hasUserLost = false;
+var isCharacterChosen = false;
+var isEnemyChosen = false;
+var enemiesLeft = 3;
+
+var placeHolder;
 //~~~~~~~Functions~~~~~~~
 
 function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;}
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 console.log(sora.attackPoints);
 
 //~~~~~~~Main Process~~~~~~~
-$( document ).ready(function() {
+$(document).ready(function() {
 
-	// User chooses a character
-	$(".character").on("click", function() {
-		if (chosenCharacter===undefined) {
-			var thisChosenId = this.id;
-			// Allows value to have all of the properties available
-			chosenCharacter = eval(this.id);
-			// Appends chosencharacter to your characterdiv
-			$("#" + chosenCharacter.name).appendTo(".yourCharacter");
-			// Variable that holds HTML code of images in standing position, depending on click event
-			var standingImage = "<img src='assets/images/" + thisChosenId + "-stand.gif'" + ">";
-			// Generates HTML code with HP bar and standing image into
-			$("#" + chosenCharacter.name).html(standingImage + "<div class='hpBar'><a id='chosen-hp'>0</a></div>");
-			// Variable that holds value for HP
-			var yourHP = chosenCharacter.healthPoints;
-			$("#chosen-hp").html(yourHP);
-			// Changes text to choose your enemy.
-			$("#information").html("Choose your <strong id='red-text'>Enemy</strong>");
-			// Capitalizes first letter and adds character name on top of chosen player image
-			$("#yourCharName").html(chosenCharacter.name.charAt(0).toUpperCase() + chosenCharacter.name.slice(1));
-			window.scrollBy(0, 100);
+    // User chooses a character
+    $(".character").on("click", function() {
+        if (isCharacterChosen == false) {
+            isCharacterChosen = true;
+            var thisChosenId = this.id;
+            // Allows value to have all of the properties available
+            chosenCharacter = eval(this.id);
+            // Appends chosencharacter to your characterdiv
+            $("#" + chosenCharacter.name).appendTo(".yourCharacter");
+            // Variable that holds HTML code of images in standing position, depending on click event
+            var standingImage = "<img src='assets/images/" + thisChosenId + "-stand.gif'" + ">";
+            // Generates HTML code with HP bar and standing image into
+            $("#" + chosenCharacter.name).html(standingImage + "<div class='hpBar'><a id='chosen-hp'>0</a></div>");
+            // Variable that holds value for HP
+            var yourHP = chosenCharacter.healthPoints;
+            $("#chosen-hp").html(yourHP);
+            // Changes text to choose your enemy.
+            $("#information").html("Choose your <strong id='red-text'>Enemy</strong>");
+            // Capitalizes first letter and adds character name on top of chosen player image
+            $("#yourCharName").html(chosenCharacter.name.charAt(0).toUpperCase() + chosenCharacter.name.slice(1));
+            window.scrollBy(0, 100);
 
-			// Moves all remaining characters into enemies section
-			for(var i=0; i < charactersArray.length; i++) {
-					// Only executes on objects in characters array that are NOT chosen character
-					if(charactersArray[i] != chosenCharacter){
-	    			//Pushes items that are not the character into an item array
-	    			enemiesArray.push(charactersArray[i]);
-	    			//Moves these characters to the remaning enemies section
-	    			$("#" + charactersArray[i].name).appendTo(".remainingEnemies");
-	    			//Adds an attribute of enemny to the character
-	    			$("#" + charactersArray[i].name).attr("class", "enemy");
-	    		}
-			}
-			// ~~~~~~~TESTING
-			console.log(thisChosenId);
-			console.log(chosenCharacter, "Objects with properies");
-			console.log(chosenCharacter.name), "Object Name";
-			console.log(charactersArray), "charactersArray";
-		}
+            // Moves all remaining characters into enemies section
+            for (var i = 0; i < charactersArray.length; i++) {
+                // Only executes on objects in characters array that are NOT chosen character
+                if (charactersArray[i] != chosenCharacter) {
+                    //Pushes items that are not the character into an item array
+                    enemiesArray.push(charactersArray[i]);
+                    //Moves these characters to the remaning enemies section
+                    $("#" + charactersArray[i].name).appendTo(".remainingEnemies");
+                    //Adds an attribute of enemny to the character
+                    $("#" + charactersArray[i].name).attr("class", "enemy");
+                }
+            }
+            // ~~~~~~~TESTING
+            // console.log(thisChosenId);
+            // console.log(chosenCharacter, "Objects with properies");
+            // console.log(chosenCharacter.name), "Object Name";
+            // console.log(charactersArray), "charactersArray";
+        }
 
-	});
+    });
 
-	// User chooses an enemy AFTER choosing a character
-	$(document).on('click','.enemy',function() {
-		//
-		if (chosenEnemy===undefined) {
-			var thisEnemyId = this.id;
-			chosenEnemy = eval(this.id);
-			$("#" + chosenEnemy.name).appendTo(".yourEnemy");
-			var attackEnemyImage = "<img src='assets/images/" + thisEnemyId + "-attack.gif'" + ">";
-			$("#" + chosenEnemy.name).html(attackEnemyImage + "<div class='hpBar'><a id='enemy-hp'>0</a></div>");
-			var enemyHP = chosenEnemy.healthPoints;
-			$("#enemy-hp").html(enemyHP);
-			//Changes information text
-			$("#information").html("<strong>Click <strong id='red-text'>Enemy</strong> To Attack!</strong>");
-			$("#yourEnemyName").html(chosenEnemy.name.charAt(0).toUpperCase() + chosenEnemy.name.slice(1));
-			
+    // User chooses an enemy AFTER choosing a character
+    $(document).on('click', '.enemy', function() {
 
+        if (isEnemyChosen == false) {
+            isEnemyChosen = true;
+            var thisEnemyId = this.id;
+            chosenEnemy = eval(this.id);
+            $("#" + chosenEnemy.name).appendTo(".yourEnemy");
+            var attackEnemyImage = "<img src='assets/images/" + thisEnemyId + "-attack.gif'" + ">";
+            $("#" + chosenEnemy.name).html(attackEnemyImage + "<div class='hpBar'><a id='enemy-hp'>0</a></div>");
+            var enemyHP = chosenEnemy.healthPoints;
+            $("#enemy-hp").html(enemyHP);
+            //Changes information text
+            $("#information").html("<strong>Click <strong id='red-text'>Enemy</strong> To Attack!</strong>");
+            $("#yourEnemyName").html(chosenEnemy.name.charAt(0).toUpperCase() + chosenEnemy.name.slice(1));
+            // TESTING
+            // for(var i=0; i < enemiesArray.length, i++) {
 
-			// TESTING
-			// for(var i=0; i < enemiesArray.length, i++) {
+            // }
+            // console.log( "enemy!" );
+            // console.log(thisEnemyId);
+            console.log(chosenEnemy);
+        }
 
-			// }
-			// console.log( "enemy!" );
-			// console.log(thisEnemyId);
-			// console.log(chosenEnemy);
-		}
-	});
+    $(document).on('click', '.yourEnemy img', function() {
+        if (isCharacterChosen == true && isEnemyChosen == true) {
+            $(".yourCharacter img").animate({ left: "+=300px" }, 100);
+            // Lowers enemy HP based on attack power of selected character
+            attackPower += chosenCharacter.attackPoints;
+            console.log(attackPower, "Test Attack");
+            chosenEnemy.healthPoints -= attackPower;
+            var enemyHP = chosenEnemy.healthPoints;
+            $("#enemy-hp").html(enemyHP);
+            // Lowers selected HP based on counter attack power of enemy character plus a randomly generated number
+            counterPower = (chosenEnemy.counterAttackPoints + getRandomInt(1, 10));
+            chosenCharacter.healthPoints -= counterPower;
+            var yourHP = chosenCharacter.healthPoints;
+            $("#chosen-hp").html(yourHP);
+            $(".infoBox").html("<p> You dealt <strong id='green-text'>" + attackPower + " points</strong> of damage, while " + (chosenEnemy.name.charAt(0).toUpperCase() + chosenEnemy.name.slice(1)) + " counter-attacked for <strong id='red-text'>" + counterPower + " points</strong>.");
+            $(".yourCharacter img").animate({ left: "-=300px" }, 100);
+        };
+        
+        if (chosenEnemy.healthPoints <= 0){
+        	isEnemyChosen = false;
+        	enemiesLeft--;
+        	console.log(enemiesLeft);
+        	// $("#" + chosenEnemy.name).appendTo("#wins");
+        	$('.yourEnemy').empty();
+        	$(".infoBox").html("<h2>You have defeated <strong id='red-text'>" + chosenEnemy.name + "</strong>! Choose a new enemy from the list!</h2>");
+        	// $("#" + chosenEnemy.name).appendTo("#wins");
+        	// $("#" + chosenEnemy.name + "HP").text("Defeated");
+        	// $("#attack").css("display", "none");
+        	defeatedArray.push(chosenEnemy);
+        	chosenEnemy = undefined;
+        	console.log(isEnemyChosen);
+        };
+        if (enemiesLeft == 0) {
+        	$(".infoBox").html("<h2>You Win!</h2>");
+        };
 
-
-// Attack functionality
-
-	$(document).on('click','.yourEnemy img',function() {
-		// $(".yourCharacter img").animate({left: '250px'});
-		if(chosenCharacter !== undefined && chosenEnemy !==undefined) {
-		$(".yourCharacter img").animate({left: "+=300px"}, 1000);
-
-		attackPower+=chosenCharacter.attackPoints;
-		console.log(attackPower, "Test Attack");
-		chosenEnemy.healthPoints-=attackPower;
-		var enemyHP = chosenEnemy.healthPoints;
-		$("#enemy-hp").html(enemyHP);
-
-		counterPower = (chosenEnemy.counterAttackPoints + getRandomInt(1,10));
-		chosenCharacter.healthPoints-= counterPower;
-		var yourHP = chosenCharacter.healthPoints;
-		$("#chosen-hp").html(yourHP);
-
-		$(".infoBox").html("<p> You dealt <strong id='green-text'>" + attackPower + " points</strong> of damage, while " + (chosenEnemy.name.charAt(0).toUpperCase() + chosenEnemy.name.slice(1)) + " counter-attacked for <strong id='red-text'>" + counterPower + " points</strong>.");
-		
-
-    	$(".yourCharacter img").animate({left: "-=300px"}, 1000);
-
-
-    	}
-
-
-		//checks to see if user has lost//
-		// if(chosenCharacter.healthPoints <= 0){
-		// 	GameOver = true;
-		// 	hasUserLost = true;
-		// 	$(".infoBox").html("<h2> You Lose!");
-		// 	$("#attack").attr("id", "play_again");
-		// 	$("#play_again").text("Play Again");
-		// 	$("#" + chosenCharacter.name + "HP").text("Defeated");
-		// 	$("#" + chosenEnemy.name + "HP").text("Winner");
-		// 	$("#play_again").on("click", function(){
-		// 		location.reload();
-		// 	});
-		// }
-
-		//checks to see if the user has defeated the enemy//
-		if(chosenEnemy.healthPoints <= 0 && gameOver === false){
-			$("#" + chosenEnemy.name).appendTo("#wins");
-			$(".infoBox").html("<h2>You have defeated <strong id='red-text'>" + chosenEnemy.name + "</strong>! Choose a new enemy from the list!</h2>");
-			// $("#" + chosenEnemy.name).appendTo("#wins");
-			// $("#" + chosenEnemy.name + "HP").text("Defeated");
-			// $("#attack").css("display", "none");
-			defeatedArray.push(chosenEnemy);
-			chosenEnemy = undefined;
-		}
-
-		//checks to see if user has defeated all enemies//
-
-		// if(defeated.length === characters.length - 1){
-		// 	isGameOver = true;
-		// 	$("#instructions").text("You have defeated every enemy! YOU WIN!");
-		// 	$("#attack").css("display", "block");
-		// 	$("#attack").attr("id", "play_again");
-		// 	$("#play_again").text("Play Again");
-		// 	$("#" + chosenCharacter.name + "HP").text("Winner");
-		// 	$("#play_again").on("click", function(){
-		// 		location.reload();
-		// 	});
-		// }
+     });
 
 
     });
 
 
+    // Attack functionality
+
+
+ //    $(".yourEnemy img").on("click", function() {
+ //        if (isGameOver === false) {
+ //            chosenEnemy.healthPoints -= chosenCharacter.attackPower;
+ //            chosenCharacter.healthPoints -= chosenEnemy.counterAttackPower;
+ //            // Lowers enemy HP based on attack power of selected character
+ //            attackPower += chosenCharacter.attackPoints;
+ //            console.log(attackPower, "Test Attack");
+ //            chosenEnemy.healthPoints -= attackPower;
+ //            var enemyHP = chosenEnemy.healthPoints;
+ //            $("#enemy-hp").html(enemyHP);
+ //            // Lowers selected HP based on counter attack power of enemy character plus a randomly generated number
+ //            counterPower = (chosenEnemy.counterAttackPoints + getRandomInt(1, 10));
+ //            chosenCharacter.healthPoints -= counterPower;
+ //            var yourHP = chosenCharacter.healthPoints;
+ //            $("#chosen-hp").html(yourHP);
+
+	// 		$(".infoBox").html("<p> You dealt <strong id='green-text'>" + attackPower + " points</strong> of damage, while " + (chosenEnemy.name.charAt(0).toUpperCase() + chosenEnemy.name.slice(1)) + " counter-attacked for <strong id='red-text'>" + counterPower + " points</strong>.");
+ //        }
+        
+	// attackPower += chosenCharacter.attackPoints;
+
+
+ //        chosenCharacter.attackPower += chosenCharacter.baseAttackPower;
+
+ //        //checks to see if user has lost//
+ //        if (chosenCharacter.healthPoints <= 0) {
+ //            isGameOver = true;
+ //            hasUserLost = true;
+ //            $("#instructions").text("You lose!");
+ //            $("#attack").attr("id", "play_again");
+ //            $("#play_again").text("Play Again");
+ //            $("#" + chosenCharacter.name + "HP").text("Defeated");
+ //            $("#" + chosenEnemy.name + "HP").text("Winner");
+ //            $("#play_again").on("click", function() {
+ //                location.reload();
+ //            });
+ //        }
+
+ //        //checks to see if the user has defeated the enemy//
+ //        if (chosenEnemy.healthPoints <= 0 && hasUserLost === false) {
+ //            $("#instructions").text("You have defeated " + chosenEnemy.name + "! Choose a new enemy from the remaining enemies list!");
+ //            $("#" + chosenEnemy.name).appendTo(".wins");
+ //            $("#" + chosenEnemy.name + "HP").text("Defeated");
+ //            $("#attack").css("display", "none");
+ //            defeated.push(chosenEnemy);
+ //            chosenEnemy = "";
+ //            isEnemyChosen = false;
+ //        }
+
+ //        //checks to see if user has defeated all enemies//
+
+ //        if (defeated.length === characters.length - 1) {
+ //            isGameOver = true;
+ //            $("#instructions").text("You have defeated every enemy! YOU WIN!");
+ //            $("#attack").css("display", "block");
+ //            $("#attack").attr("id", "play_again");
+ //            $("#play_again").text("Play Again");
+ //            $("#" + chosenCharacter.name + "HP").text("Winner");
+ //            $("#play_again").on("click", function() {
+ //                location.reload();
+ //            });
+ //        }
+ //    });
+
+
+// ~~~~~~~~~~~~~~MY CODE
+
+    // $(document).on('click', '.yourEnemy img', function() {
+    //     if (isCharacterChosen == true && isEnemyChosen == true) {
+    //         $(".yourCharacter img").animate({ left: "+=300px" }, 250);
+    //         // Lowers enemy HP based on attack power of selected character
+    //         attackPower += chosenCharacter.attackPoints;
+    //         console.log(attackPower, "Test Attack");
+    //         chosenEnemy.healthPoints -= attackPower;
+    //         var enemyHP = chosenEnemy.healthPoints;
+    //         $("#enemy-hp").html(enemyHP);
+    //         // Lowers selected HP based on counter attack power of enemy character plus a randomly generated number
+    //         counterPower = (chosenEnemy.counterAttackPoints + getRandomInt(1, 10));
+    //         chosenCharacter.healthPoints -= counterPower;
+    //         var yourHP = chosenCharacter.healthPoints;
+    //         $("#chosen-hp").html(yourHP);
+    //         $(".infoBox").html("<p> You dealt <strong id='green-text'>" + attackPower + " points</strong> of damage, while " + (chosenEnemy.name.charAt(0).toUpperCase() + chosenEnemy.name.slice(1)) + " counter-attacked for <strong id='red-text'>" + counterPower + " points</strong>.");
+    //         $(".yourCharacter img").animate({ left: "-=300px" }, 250);
+    //     };
+        
+    //     if (chosenEnemy.healthPoints <= 0){
+    //     	isEnemyChosen = false;
+    //     	// $("#" + chosenEnemy.name).appendTo("#wins");
+    //     	$('.yourEnemy').empty();
+    //     	$(".infoBox").html("<h2>You have defeated <strong id='red-text'>" + chosenEnemy.name + "</strong>! Choose a new enemy from the list!</h2>");
+    //     	// $("#" + chosenEnemy.name).appendTo("#wins");
+    //     	// $("#" + chosenEnemy.name + "HP").text("Defeated");
+    //     	// $("#attack").css("display", "none");
+    //     	defeatedArray.push(chosenEnemy);
+    //     	chosenEnemy = undefined;
+    //     	console.log(isEnemyChosen);
+    //     };
+
+    //  });
+
+
+
+// ~~~~~~~~~~~~~~~~~
 
 });
 
@@ -190,22 +272,22 @@ $( document ).ready(function() {
 // Ben Ridout (c) 2013 - http://BenRidout.com/?q=bubblepop
 // You're free to use this code with above attribution (in source is fine).
 
-$(function(){
-  // Document is ready
-  $(".yourEnemy").on("click", function(e) {
-    pop(e.pageX, e.pageY, 13);
-  });
+$(function() {
+    // Document is ready
+    $(".yourEnemy").on("click", function(e) {
+        pop(e.pageX, e.pageY, 13);
+    });
 });
 
 function r2d(x) {
     return x / (Math.PI / 180);
-  }
+}
 
-  function d2r(x) {
+function d2r(x) {
     return x * (Math.PI / 180);
-  }
+}
 
-  function pop(start_x, start_y, particle_count) {
+function pop(start_x, start_y, particle_count) {
     arr = [];
     angle = 0;
     particles = [];
@@ -213,29 +295,29 @@ function r2d(x) {
     offset_y = $("#dummy_debris").height() / 2;
 
     for (i = 0; i < particle_count; i++) {
-      rad = d2r(angle);
-      x = Math.cos(rad)*(80+Math.random()*20);
-      y = Math.sin(rad)*(80+Math.random()*20);
-      arr.push([start_x + x, start_y + y]);
-      z = $('<div class="debris" />');
-      z.css({
-          "left": start_x - offset_x,
-          "top": start_y - offset_x
-      }).appendTo($("#content"));
-      particles.push(z);
-      angle += 360/particle_count;
+        rad = d2r(angle);
+        x = Math.cos(rad) * (80 + Math.random() * 20);
+        y = Math.sin(rad) * (80 + Math.random() * 20);
+        arr.push([start_x + x, start_y + y]);
+        z = $('<div class="debris" />');
+        z.css({
+            "left": start_x - offset_x,
+            "top": start_y - offset_x
+        }).appendTo($("#content"));
+        particles.push(z);
+        angle += 360 / particle_count;
     }
-    
-    $.each(particles, function(i, v){
-      $(v).show();
-      $(v).animate(
-        {
-          top: arr[i][1], 
-          left: arr[i][0],
-          width: 4, 
-          height: 4, 
-          opacity: 0
-        }, 600, function(){$(v).remove()
-      });
+
+    $.each(particles, function(i, v) {
+        $(v).show();
+        $(v).animate({
+            top: arr[i][1],
+            left: arr[i][0],
+            width: 4,
+            height: 4,
+            opacity: 0
+        }, 600, function() {
+            $(v).remove()
+        });
     });
-  }
+}
