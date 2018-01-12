@@ -4,7 +4,7 @@ This is a fan-made, click-based RPG that allows you to play as the following cha
 
 ## Getting Started
 
-Hosted on: https://ykeanu.github.io/week-4-game/
+Hosted on: https://ykeanu.github.io/kingdom-hearts-rpg
 
 ### Instructions
 
